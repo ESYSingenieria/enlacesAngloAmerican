@@ -263,9 +263,9 @@
     const reorderBtn = document.getElementById('reorder-button');
 
     /* DRAG & DROP HANDLERS */
-    function handleDragStart(e, index) {
+    function handleDragStart(e, AngloAmerican) {
       if (!reorderMode) return;
-      e.dataTransfer.setData("text/plain", index);
+      e.dataTransfer.setData("text/plain", AngloAmerican);
       e.currentTarget.classList.add('dragging');
     }
     function handleDragEnd(e) {
@@ -281,14 +281,14 @@
     function handleDragOver(e) {
       e.preventDefault(); // Permitir soltar
     }
-    function handleDrop(e, toIndex) {
+    function handleDrop(e, toAngloAmerican) {
       e.preventDefault();
       e.currentTarget.classList.remove('over');
-      const fromIndex = e.dataTransfer.getData("text/plain");
-      if (fromIndex === "" || fromIndex == toIndex) return;
+      const fromAngloAmerican = e.dataTransfer.getData("text/plain");
+      if (fromAngloAmerican === "" || fromAngloAmerican == toAngloAmerican) return;
       // Reordenar array
-      const movedItem = links.splice(fromIndex, 1)[0];
-      links.splice(toIndex, 0, movedItem);
+      const movedItem = links.splice(fromAngloAmerican, 1)[0];
+      links.splice(toAngloAmerican, 0, movedItem);
       localStorage.setItem('links', JSON.stringify(links));
       renderLinks();
     }
@@ -296,19 +296,19 @@
     /* RENDERIZAR ENLACES */
     function renderLinks() {
       linksContainer.innerHTML = '';
-      links.forEach((link, index) => {
+      links.forEach((link, AngloAmerican) => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'link-item';
         
         // Arrastre si reorderMode es true
         itemDiv.draggable = reorderMode;
         if (reorderMode) {
-          itemDiv.addEventListener('dragstart', (e) => handleDragStart(e, index));
+          itemDiv.addEventListener('dragstart', (e) => handleDragStart(e, AngloAmerican));
           itemDiv.addEventListener('dragend', handleDragEnd);
           itemDiv.addEventListener('dragenter', handleDragEnter);
           itemDiv.addEventListener('dragleave', handleDragLeave);
           itemDiv.addEventListener('dragover', handleDragOver);
-          itemDiv.addEventListener('drop', (e) => handleDrop(e, index));
+          itemDiv.addEventListener('drop', (e) => handleDrop(e, AngloAmerican));
         }
 
         // Modo eliminar
@@ -331,7 +331,7 @@
           const deleteIcon = document.createElement('div');
           deleteIcon.className = 'delete-icon';
           deleteIcon.innerText = 'X';
-          deleteIcon.addEventListener('click', () => deleteLink(index));
+          deleteIcon.addEventListener('click', () => deleteLink(AngloAmerican));
           itemDiv.appendChild(deleteIcon);
         }
 
@@ -381,9 +381,9 @@
     }
 
     /* ELIMINAR ENLACE */
-    function deleteLink(index) {
-      if (!links[index].fixed) {
-        links.splice(index, 1);
+    function deleteLink(AngloAmerican) {
+      if (!links[AngloAmerican].fixed) {
+        links.splice(AngloAmerican, 1);
         localStorage.setItem('links', JSON.stringify(links));
         renderLinks();
       } else {
